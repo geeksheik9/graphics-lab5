@@ -150,26 +150,26 @@ function deviceToWorld(x, y) {
 	myVec = vec3(x, y, 1)
 	tMat = translate2D(-8,-8)
 
-	x1 = dot(tMat[0], myVec)
-	y1 = dot(tMat[1], myVec)
+	x1 = dotProd(tMat[0], myVec)
+	y1 = dotProd(tMat[1], myVec)
 
 	myVec2 = vec3(x,y,1)
 	sMat = scale2D(1/512, 1/512)
 
-	x2 = dot(sMat[0], myVec2)
-	y2 = dot(sMat[1], myVec2)
+	x2 = dotProd(sMat[0], myVec2)
+	y2 = dotProd(sMat[1], myVec2)
 
 	myVec3 = vec3(x2, y2, 1)
 	sMat2 = scale2D(200,200)
 
-	x3 = dot(sMat2[0], myVec3)
-	y3 = dot(sMat2[1], myVec3)
+	x3 = dotProd(sMat2[0], myVec3)
+	y3 = dotProd(sMat2[1], myVec3)
 
 	myVec4 = vec3(x3, y3, 1)
 	tMat2 = translate2D(-100, -100)
 
-	x4 = dot(tMat2[0], myVec4)
-	y4 = dot(tMat2[1], myVec4)
+	x4 = dotProd(tMat2[0], myVec4)
+	y4 = dotProd(tMat2[1], myVec4)
 
 	returnVec = vec3(x4, y4, 1)
 
@@ -180,8 +180,8 @@ function worldToNDC(wx, wy){
 	myVec = vec3(wx, wy, 1)
 	sMat = scale2D(1/100, 1/100)
 
-	xDot = dot(sMat[0], myVec)
-	yDot = dot(sMat[1], myVec)
+	xDot = dotProd(sMat[0], myVec)
+	yDot = dotProd(sMat[1], myVec)
 
 	returnVec = vec3(xDot, yDot, 1)
 	return returnVec
