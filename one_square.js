@@ -144,24 +144,33 @@ function dotProd(v1, v2){
 		sum += v1[i] + v2[i]
 	}
 
-	//console.log(sum)
 	return sum
 }
 
 function deviceToWorld(x, y) {
 	myvec = vec3(x,y,1)
 
-	// translator = translate2D(x,y)
-
-	// newX = dotProd(myvec, translator)
-
-	// console.log(newX)
+	translator = translate2D(x,y)
 
 	sx = 1/512
 	sy = 1/512
 	scaler = scale2D(sx, sy)
 
-	scaled = dotProd(scaler, myvec)
+	theMat = mult(translator, scaler)
+
+	console.log(theMat)
+
+	console.log(theMat[0] + ", " + theMat[1] + ", " + theMat[2])
+
+	newX = dot(theMat[0], myvec)
+	newY = dot(theMat[1], myvec)
+
+	console.log(newX)
+
+	returnVec = vec3(newX, newY, 1)
+
+	return returnVec
+
 	//console.log(scaled)
 
 	//translator = translate2D()
@@ -231,13 +240,13 @@ function drawPoints(event){
 function updateResults(event){
 	x = event.clientX
 	y = event.clientY
-	world = deviceToWorld(x,y)
+	world = deviceToWorld(x,height - y)
 	ndc = worldToNDC(x, y)
 	x2 = "mom"
 	y2 = "dad"
 	message = "Device Coordinates: [ " + x + ", " + y +" ]" +
 				"\nNDC Coordinates: [ " + ndc + " ]" +
-				"\nWorld Coordinates: [ " + world + " ]"
+				"\nWorld Coordinates: [ " + world[0] + ", " + world[1] + " ]"
 	document.getElementById('text-area').value = message
 	if(isMouseDown && enabledDrawing){
 		drawPoints(event)
