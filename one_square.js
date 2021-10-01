@@ -140,50 +140,51 @@ function dotProd(v1, v2){
 	}
 
 	for(let i = 0; i < v1.length; i++){
-		console.log(v1[i] + " " + v2[i])
-		sum += v1[i] + v2[i]
+		sum += v1[i] * v2[i]
 	}
 
 	return sum
 }
 
 function deviceToWorld(x, y) {
-	myvec = vec3(x,y,1)
+	myVec = vec3(x, y, 1)
+	tMat = translate2D(-8,-8)
 
-	translator = translate2D(x,y)
+	x1 = dot(tMat[0], myVec)
+	y1 = dot(tMat[1], myVec)
 
-	sx = 1/512
-	sy = 1/512
-	scaler = scale2D(sx, sy)
+	myVec2 = vec3(x,y,1)
+	sMat = scale2D(1/512, 1/512)
 
-	theMat = mult(translator, scaler)
+	x2 = dot(sMat[0], myVec2)
+	y2 = dot(sMat[1], myVec2)
 
-	console.log(theMat)
+	myVec3 = vec3(x2, y2, 1)
+	sMat2 = scale2D(200,200)
 
-	console.log(theMat[0] + ", " + theMat[1] + ", " + theMat[2])
+	x3 = dot(sMat2[0], myVec3)
+	y3 = dot(sMat2[1], myVec3)
 
-	newX = dot(theMat[0], myvec)
-	newY = dot(theMat[1], myvec)
+	myVec4 = vec3(x3, y3, 1)
+	tMat2 = translate2D(-100, -100)
 
-	console.log(newX)
+	x4 = dot(tMat2[0], myVec4)
+	y4 = dot(tMat2[1], myVec4)
 
-	returnVec = vec3(newX, newY, 1)
+	returnVec = vec3(x4, y4, 1)
 
 	return returnVec
-
-	//console.log(scaled)
-
-	//translator = translate2D()
-
-
-	//scale 
-
-	//translate
-	
 }
 
-function worldToNDC(x,y){
+function worldToNDC(wx, wy){
+	myVec = vec3(wx, wy, 1)
+	sMat = scale2D(1/100, 1/100)
 
+	xDot = dot(sMat[0], myVec)
+	yDot = dot(sMat[1], myVec)
+
+	returnVec = vec3(xDot, yDot, 1)
+	return returnVec
 }
 
 counter = 0;
@@ -241,12 +242,10 @@ function updateResults(event){
 	x = event.clientX
 	y = event.clientY
 	world = deviceToWorld(x,height - y)
-	ndc = worldToNDC(x, y)
-	x2 = "mom"
-	y2 = "dad"
-	message = "Device Coordinates: [ " + x + ", " + y +" ]" +
-				"\nNDC Coordinates: [ " + ndc + " ]" +
-				"\nWorld Coordinates: [ " + world[0] + ", " + world[1] + " ]"
+	NDC = worldToNDC(world[0], world[1])
+	message = "Device Coordinates: [ " + x + ", " + y +" ]\n" +
+			  "World Coordinates: [ " + world[0] + ", " + world[1] + " ]\n" +
+			  "NDC Coordinates: [ " + NDC[0] + ", " + NDC[1] + " ]"
 	document.getElementById('text-area').value = message
 	if(isMouseDown && enabledDrawing){
 		drawPoints(event)
